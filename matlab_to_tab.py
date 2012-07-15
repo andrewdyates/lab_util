@@ -3,9 +3,9 @@
 
 EXAMPLE USE:
 
-python matlab_to_tab.py  matlab_fname=/Users/qq/Dropbox/biostat/study_data/GSE15745/GSE15745.GPL6104.normed.mat  tab_fname=/Users/qq/Dropbox/biostat/study_data/GSE15745/GSE15745.GPL6104.mRNA.raw.tab > /Users/qq/Dropbox/biostat/study_data/GSE15745/GSE15745.GPL6104.miRNA.normed.tab
+python matlab_to_tab.py matlab_fname=/Users/qq/Dropbox/biostat/study_data/GSE15745/GSE15745.GPL6104.normed.mat  tab_fname=/Users/qq/Dropbox/biostat/study_data/GSE15745/GSE15745.GPL6104.mRNA.raw.tab > /Users/qq/Dropbox/biostat/study_data/GSE15745/GSE15745.GPL6104.mRNA.normed.tab
 
-
+UPDATE: replaces 'nan' with empty string
 """
 import sys
 import scipy.io as sio
@@ -29,8 +29,15 @@ def main(matlab_fname=None, tab_fname=None, matrix_name="M"):
   assert len(varlist) == np.size(M,0)
 
   for i, row in enumerate(M):
-    print varlist[i] + '\t' + '\t'.join(["%f"%v for v in row])
+    print varlist[i] + '\t' + '\t'.join([to_str(v) for v in row])
 
+def to_str(x):
+  """Don't return nan. Return empty string."""
+  s = "%f"%x
+  if s == "nan":
+    return ""
+  else:
+    return s
 
 if __name__ == "__main__":
   main(**dict([s.split('=') for s in sys.argv[1:]]))
