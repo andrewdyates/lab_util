@@ -1,3 +1,7 @@
+#!/usr/bin/python
+"""
+  python r_histogram.py 
+"""
 import sys, os
 import numpy as np
 
@@ -16,12 +20,12 @@ def main(npyfname, outdir):
   M = np.load(npyfname)
 
   # Draw plot
-  plot_pdfname = os.path.join(outdir, "%s_hist.pdf" % os.path.basename(npyfname))
+  plot_pdfname = os.path.join(outdir, "%s_hist.png" % os.path.basename(npyfname))
   print "Plotting %s..." % plot_pdfname
-  grdevices.pdf(plot_pdfname)
+  grdevices.png(plot_pdfname)
   graphics.hist(M, prob=True, main=os.path.basename(npyfname), xlab="score", col="grey")
-  graphics.lines(stats.density(M), color="blue")
-  graphics.rug(M, col="black")
+#  graphics.lines(stats.density(M), col="blue")
+#  graphics.rug(M, col="black")
   grdevices.dev_off()
 
 if __name__ == "__main__":
