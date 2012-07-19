@@ -11,7 +11,6 @@ import sys
 def main(npyfname=None, n=None):
     assert npyfname, n is not None
     M = np.load(npyfname)
-    print M
     n = int(n)
     for i in range(n):
         row = []
