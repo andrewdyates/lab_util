@@ -1,8 +1,15 @@
+#!/usr/bin/python
+"""Print a squareform numpy matrix as a text symmetric matrix.
+
+EXAMPLE USE:
+  python to_square.py npyfname=mymatrix.npy n=5
+"""
 from py_symmetric_matrix import *
 import numpy as np
 import sys
 
 def main(npyfname=None, n=None):
+    assert npyfname, n is not None
     M = np.load(npyfname)
     print M
     n = int(n)
