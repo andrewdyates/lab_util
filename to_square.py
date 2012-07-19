@@ -14,7 +14,7 @@ def main(npyfname=None, n=None):
             else:
                 idx = sym_idx(i,j,n)
                 row.append(M[idx])
-        print " ".join(["%d"%x for x in row])
+        print " ".join(["%.4f"%x for x in row])
 
 if __name__ == "__main__":
     main(**dict([s.split('=') for s in sys.argv[1:]]))
