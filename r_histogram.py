@@ -1,3 +1,7 @@
+#!/usr/bin/python
+"""
+  python r_histogram.py 
+"""
 import sys, os
 import numpy as np
 import random
@@ -18,7 +22,7 @@ def main(npyfname, outdir):
   M = M.ravel()
 
   # Draw plot
-  plot_pdfname = os.path.join(outdir, "%s_hist.pdf" % os.path.basename(npyfname))
+  plot_pdfname = os.path.join(outdir, "%s_hist.png" % os.path.basename(npyfname))
   print "Plotting %s..." % plot_pdfname
   a=random.sample(xrange(len(M)), 100)
   A = np.take(M, a)
