@@ -1,0 +1,6 @@
+[submodule "dependency_matrix_dispatcher"]
+	path = dependency_matrix_dispatcher
+	url = git@github.com:andrewdyates/dependency_matrix_dispatcher.git
+[submodule "py_symmetric_matrix"]
+	path = py_symmetric_matrix
+	url = git@github.com:andrewdyates/py_symmetric_matrix.git
