@@ -1,5 +1,6 @@
 import sys, os
 import numpy as np
+import random
 
 from rpy2 import robjects
 from rpy2.robjects.packages import importr
@@ -14,14 +15,17 @@ graphics = importr('graphics')
 
 def main(npyfname, outdir):
   M = np.load(npyfname)
+  M = M.ravel()
 
   # Draw plot
   plot_pdfname = os.path.join(outdir, "%s_hist.pdf" % os.path.basename(npyfname))
   print "Plotting %s..." % plot_pdfname
+  a=random.sample(xrange(len(M)), 100)
+  A = np.take(M, a)
   grdevices.pdf(plot_pdfname)
-  graphics.hist(M, prob=True, main=os.path.basename(npyfname), xlab="score", col="grey")
-  graphics.lines(stats.density(M), color="blue")
-  graphics.rug(M, col="black")
+  graphics.hist(A, prob=True, main=os.path.basename(npyfname), xlab="score", col="grey")
+  #  graphics.lines(stats.density(A), col="blue")
+  #  graphics.rug(A, col="black")
   grdevices.dev_off()
 
 if __name__ == "__main__":
