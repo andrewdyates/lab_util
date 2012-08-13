@@ -24,7 +24,8 @@ def main(matlab_fname=None, tab_fname=None, matrix_name="M"):
     if line[0] in ('#', '\n'): continue
     varlist.append(s.partition('\t')[0])
   assert varlist[-1]
-  assert len(varlist) == np.size(M,0)
+  assert len(varlist) == np.size(M,0), \
+    "Number of variables (%d) not equal to number of rows (%d)", (len(varlist), np.size(M,0))
 
   for i, row in enumerate(M):
     print varlist[i] + '\t' + '\t'.join([to_str(v) for v in row])
