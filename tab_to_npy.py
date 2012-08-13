@@ -5,7 +5,6 @@ import os
 # http://docs.scipy.org/doc/numpy/reference/generated/numpy.genfromtxt.html#numpy.genfromtxt
 # http://docs.scipy.org/doc/numpy/reference/generated/numpy.loadtxt.html#numpy.loadtxt
 
-# handles comments correctly, but not variable names
 def name_iter(fp, varlist):
   for line in fp:
     if line[0] in ('#','\n'): continue
