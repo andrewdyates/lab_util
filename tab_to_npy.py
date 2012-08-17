@@ -17,6 +17,18 @@ def name_iter(fp, varlist):
     varlist.append(name)
     yield row
 
+class FakeFile(object):
+  def __init__(self, line_generator):
+    self.s = line_generator
+  def __iter__(self):
+    return self
+  def next(self):
+    return self.s.next()
+  def read(self):
+    return "".join([q for q in self.s])
+  def readline(self):
+    return self.s.next()
+
 def tab_to_npy(tab_fname):
   """Return masked numpy array and in-order variable list from row-labeled .tab matrix.
 
@@ -26,5 +38,11 @@ def tab_to_npy(tab_fname):
     (np.MaskedArray, [str]) of float data and list of row IDs in order
   """
   varlist = []
-  M = np.genfromtxt(name_iter(open(tab_fname), varlist), usemask=True, delimiter='\t')
+  s = name_iter(open(tab_fname), varlist)
+  try:
+    M = np.genfromtxt(s, usemask=True, delimiter='\t')
+  except TypeError:
+    # handle numpy1.5 error regarding missing 'read' and 'readline' functions
+    S = FakeFile(s)
+    M = np.genfromtxt(S, usemask=True, delimiter='\t')
   return M, varlist
