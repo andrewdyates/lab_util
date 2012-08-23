@@ -1,5 +1,7 @@
 #!/usr/bin/python
 import os, errno
+# this is used frequently enough to be imported into __init__; leave as module for back compatibility
+from tab_to_npy import *
 
 def make_dir(outdir):
   try:
