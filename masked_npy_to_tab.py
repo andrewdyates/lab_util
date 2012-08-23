@@ -14,6 +14,10 @@ def row_to_txt(row, fmt='%.6f'):
       s.append(fmt%row[i])
   return "\t".join(s)
 
+def masked_npy_to_tab(*args, **kwds):
+  """Alias for npy_to_tab"""
+  npy_to_tab(*args, **kwds)
+
 def npy_to_tab(M, fp, varlist=None, fmt='%.6f'):
   """Write masked numpy matrix to tab delimited text.
 
