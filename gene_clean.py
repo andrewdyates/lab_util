@@ -1,4 +1,7 @@
-# Genes which resemble dates
+import re
+RX_CLEAN = re.compile('[^a-zA-Z0-9]')
+# Genes which resemble dates or have common alternate names
+
 GENE_RENAMES = {
   'MO25ALPHA': 'MO25A',
   'MO25BETA': 'MO25B',
@@ -34,7 +37,7 @@ GENE_RENAMES = {
 
 def clean(s):
   """Standardize gene names to be all caps, alphanumeric."""
-  s = re.sub('[^a-zA-Z0-9]', '', s.upper())
+  s = RX_CLEAN.sub('', s.upper())
   if s in GENE_RENAMES:
     s = GENE_RENAMES[s]
   return s
