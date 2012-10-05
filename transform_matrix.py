@@ -5,8 +5,10 @@ import numpy as np
 import cPickle as pickle
 from scipy.stats import mstats
 
-def permute_rows(M):
+def permute_rows(M, seed=True):
   """Randomly permute values in rows of M. Preserve masks."""
+  if seed:
+    random.seed()
   for i in xrange(np.size(M,0)):
     try:
       M.mask
