@@ -1,6 +1,10 @@
 #!/usr/bin/python
 """
-  python r_histogram.py 
+  python r_histogram.py
+
+This module still outputs histograms with obnoxious "density"
+estimates rather than simple count/total probabilities. I don't
+know yet how to fix this.
 """
 import sys, os
 import numpy as np
@@ -17,20 +21,36 @@ stats = importr('stats')
 graphics = importr('graphics')
 
 
-def main(npyfname, outdir):
+def main(npyfname, outdir, n_samples=1000, xlabel='value', rug=True):
+  if rug.lower() in ('', 'f', 'false', 'none'):
+    rug = False
+    
   M = np.load(npyfname)
   M = M.ravel()
+  M = M[~np.isnan(M)]
 
   # Draw plot
   plot_pdfname = os.path.join(outdir, "%s_hist.png" % os.path.basename(npyfname))
   print "Plotting %s..." % plot_pdfname
-  a=random.sample(xrange(len(M)), 100)
-  A = np.take(M, a)
-  grdevices.pdf(plot_pdfname)
-  graphics.hist(A, prob=True, main=os.path.basename(npyfname), xlab="score", col="grey")
-  #  graphics.lines(stats.density(A), col="blue")
-  #  graphics.rug(A, col="black")
-  grdevices.dev_off()
+  make_hist(M, plot_pdfname, n_samples, rug, xlabel)
 
+
+def make_hist(M, outname, n_samples=1000, rug=True, xlabel='value', title=""):
+  assert len(M.shape) == 1
+  assert np.sum(np.isnan(M)) == 0
+  ext = outname.rpartition('.')[2].lower()
+  assert ext == "pdf", 'only pdf file extension supported'
+  
+  a=random.sample(xrange(M.shape[0]), n_samples)
+  A = np.take(M, a)
+  grdevices.pdf(outname)
+  graphics.hist(A, prob=True, main=title, xlab=xlabel, col="grey")
+  if rug:
+    graphics.lines(stats.density(A), col="blue")
+    graphics.rug(A, col="black")
+  grdevices.dev_off()
+  
 if __name__ == "__main__":
   main(**dict([s.split('=') for s in sys.argv[1:]]))
+
+
