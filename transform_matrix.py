@@ -24,6 +24,24 @@ def permute_rows(M, seed=True):
       M[i,:] = row
       M[i,:].mask = np.isnan(row)
 
+def permute_cols(M, seed=True):
+  """Randomly permute values in cols of M. Preserve masks."""
+  if seed:
+    random.seed()
+  for i in xrange(np.size(M,1)):
+    try:
+      M.mask
+    except AttributeError:
+      random.shuffle(M[:,i])
+    else:
+      n_masked = np.sum(M[:,i].mask)
+      col = M[:,i].compressed()
+      assert np.sum(np.isnan(col)) == 0
+      col = list(col)
+      col.extend([np.nan]*n_masked)
+      random.shuffle(col)
+      M[:,i] = col
+      M[:,i].mask = np.isnan(col)
 
 def rank_rows(M):
   """Rank order rows of M. Preserve masks.
